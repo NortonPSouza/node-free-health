@@ -2,3 +2,6 @@
 .ideia/
 .env
 yarn-error.log
+ormconfig.json
+docker-compose.yaml
+/docker

@@ -1,5 +1,5 @@
-import 'reflect-metadata';
 import express, { Express } from 'express';
+import AppDataBase from '../../connections/database/appDataBase';
 
 export class Application {
 
@@ -9,6 +9,7 @@ export class Application {
     constructor() {
         this.app = express();
         this.server();
+        this.connectionDB();
     }
 
     private server(): void {
@@ -17,4 +18,7 @@ export class Application {
         });
     }
 
+    private connectionDB(): void{
+        new AppDataBase().initConnection();
+    }
 }
