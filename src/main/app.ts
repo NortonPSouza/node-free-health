@@ -3,13 +3,18 @@ import AppDataBase from '../../connections/database/appDataBase';
 
 export class Application {
 
+    private dataBase = new AppDataBase();
     private app: Express;
     private readonly PORT = 3000;
 
     constructor() {
         this.app = express();
-        this.server();
         this.connectionDB();
+        this.server();
+    }
+    
+    private connectionDB(): void {
+        this.dataBase.initConnection();
     }
 
     private server(): void {
@@ -18,7 +23,8 @@ export class Application {
         });
     }
 
-    private connectionDB(): void{
-        new AppDataBase().initConnection();
+    private routes(): void {
+        // const { router } = this.routes
+        // this.app.use('/api/v1', router)
     }
 }

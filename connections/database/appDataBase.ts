@@ -15,8 +15,8 @@ export default class AppDataBase {
             database: "free-health",
             synchronize: true,
             logging: true,
-            entities: [],
-            migrations: [],
+            entities: ['../../src/entity/*.ts'],
+            migrations: ['../../src/migrations/*.ts'],
             // subscribers: [],
         });
     }
