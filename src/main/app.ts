@@ -1,20 +1,31 @@
 import express, { Express } from 'express';
-import AppDataBase from '../../connections/database/appDataBase';
+import morgan from "morgan";
+import AppDatabase from '../../connections/database/appDataBase';
+import {Routes}  from '../routes';
 
 export class Application {
 
-    private dataBase = new AppDataBase();
+    private appDatabase = new AppDatabase();
     private app: Express;
+    private routes = new Routes();
     private readonly PORT = 3000;
 
     constructor() {
         this.app = express();
-        this.connectionDB();
+        this.setup();
+        this.database();
         this.server();
+        this.route();
     }
-    
-    private connectionDB(): void {
-        this.dataBase.initConnection();
+
+    private setup(): void{
+        morgan.format("logger-dev"," :remote-addr :method :url :status :response-time ms - [:date[web]] - :user-agent");
+
+        this.app.use(morgan('logger-dev'));
+    }
+
+    private database(): void {
+        this.appDatabase.initConnection();
     }
 
     private server(): void {
@@ -23,8 +34,7 @@ export class Application {
         });
     }
 
-    private routes(): void {
-        // const { router } = this.routes
-        // this.app.use('/api/v1', router)
+    private route(): void {
+        this.app.use('/api/v1', this.routes.getRouter());
     }
 }

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from 'typeorm';
 
-export default class AppDataBase {
+export default class AppDatabase {
 
     private connection: DataSource
 
@@ -14,7 +14,7 @@ export default class AppDataBase {
             password: "admin",
             database: "free-health",
             synchronize: true,
-            logging: true,
+            logging: false,
             entities: ['../../src/entity/*.ts'],
             migrations: ['../../src/migrations/*.ts'],
             // subscribers: [],
@@ -24,7 +24,7 @@ export default class AppDataBase {
     public initConnection(): void {
         this.connection.initialize()
             .then(() => {
-                console.log("Data Source has been initialized!")
+                console.log("Database has been initialized!")
             })
             .catch((err) => {
                 console.error("Error during Data Source initialization", err)
