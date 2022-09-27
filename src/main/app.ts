@@ -1,40 +1,45 @@
-import express, { Express } from 'express';
 import morgan from "morgan";
-import AppDatabase from '../../connections/database/appDataBase';
-import {Routes}  from '../routes';
+import express, {Express, Request, Response} from 'express';
+//
+import { Routes }  from '../routes';
+import Database from '../../connections/database';
 
 export class Application {
 
-    private appDatabase = new AppDatabase();
-    private app: Express;
-    private routes = new Routes();
+	private app: Express;
+	private routes = new Routes();
+	private database = new Database();
     private readonly PORT = 3000;
 
     constructor() {
         this.app = express();
-        this.setup();
-        this.database();
-        this.server();
-        this.route();
+        this.setupConfig();
+        this.setupDatabase();
+		this.setupRoutes();
+		this.server();
     }
 
-    private setup(): void{
-        morgan.format("logger-dev"," :remote-addr :method :url :status :response-time ms - [:date[web]] - :user-agent");
-
-        this.app.use(morgan('logger-dev'));
+    private setupConfig(): void {
+        this.app.use(morgan('dev'));
     }
 
-    private database(): void {
-        this.appDatabase.initConnection();
+    private setupDatabase(): void {
+        this.database.initConnection()
+			.then(() => {
+				console.log("⚡️[database]: has been initialized!");
+			});
     }
+
+	private setupRoutes(): void {
+    	this.app.get('/', (req: Request, res: Response) => res.status(204).send());
+    	this.app.get('/health', (req: Request, res: Response) => res.status(204).send());
+		this.app.use('/api/v1', this.routes.getRouter());
+	}
 
     private server(): void {
         this.app.listen(this.PORT, () => {
-            console.log(`⚡️[server]: Server is running at https://localhost:${this.PORT}`);
+            console.log(`⚡️[server]: is running at http://localhost:${this.PORT}`);
         });
     }
 
-    private route(): void {
-        this.app.use('/api/v1', this.routes.getRouter());
-    }
 }
