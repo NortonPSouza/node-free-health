@@ -1,6 +1,7 @@
 /node_modules
-.ideia/
-.env
+/.idea
+.env.*
+!.env.local
 yarn-error.log
 ormconfig.json
 /docker
