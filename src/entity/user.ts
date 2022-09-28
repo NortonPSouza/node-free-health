@@ -10,7 +10,7 @@ export class User {
     name: string
 
     @Column()
-    date_birthday: Date
+    birthday: Date
 
     @Column()
     heigth: number

@@ -20,6 +20,8 @@ export class Application {
     }
 
     private setupConfig(): void {
+		this.app.use(express.json());
+		this.app.use(express.urlencoded());
         this.app.use(morgan('dev'));
     }
 

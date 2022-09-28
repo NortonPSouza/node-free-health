@@ -1,5 +1,5 @@
 import express, {Router} from 'express';
-import { userController } from '../controller/user/indext';
+import { UserController } from '../controller/user';
 
 export class Routes {
     private router = express.Router();
@@ -13,6 +13,6 @@ export class Routes {
     }
 
     private userRoutes(): void {
-        this.router.post('/user', userController.register);
+        this.router.post('/user', UserController.register);
     }
 }

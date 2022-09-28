@@ -11,8 +11,7 @@ export default class Database {
         this.connection = new DataSource(config);
     }
 
-    public async initConnection(): Promise<boolean>
-	{
+    public async initConnection(): Promise<boolean>	{
     	try {
 			await this.connection.initialize();
 			return true;
