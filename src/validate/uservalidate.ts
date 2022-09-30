@@ -64,9 +64,7 @@ export class UserValidate {
 	}
 
 	public static isBirthday(value: string): Boolean | ErrorMessage {
-		// TODO- review this regex validation
-		const birthday = /^(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d$/;
-
+		const birthday = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i;
 		if (!value) {
 			return {
 				status: false,
@@ -83,11 +81,17 @@ export class UserValidate {
 	}
 
 	public static isHeight(value: string): Boolean | ErrorMessage {
-		// TODO - make a regex for validate person height in centimeter
+		const height = /^\d+(\.\d{1,3})?$/;
 		if (!value) {
 			return {
 				status: false,
 				message: this.EMPTY_FIELD.replace("FIELD", "height")
+			}
+		}
+		if (!height.test(value)){
+			return {
+				status: false,
+				message: "Height is invalid"
 			}
 		}
 		return { status: true, message: '' };
