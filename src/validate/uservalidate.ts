@@ -23,7 +23,7 @@ export class UserValidate {
 		return { status: true, message: '' };
 	}
 
-	public static isName(value: string): Boolean | ErrorMessage {
+	public static isName(value: string): ErrorMessage {
 		const name = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/;
 		if (!value) {
 			return {
@@ -31,7 +31,7 @@ export class UserValidate {
 				message: this.EMPTY_FIELD.replace("FIELD", "Name")
 			}
 		}
-		if(!name.test(value)){
+		if (!name.test(value)) {
 			return {
 				status: false,
 				message: "Name must be a string"
@@ -46,7 +46,7 @@ export class UserValidate {
 		return { status: true, message: '' };
 	}
 
-	public static isPassword(value: string): Boolean | ErrorMessage {
+	public static isPassword(value: string): ErrorMessage {
 		const password = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#!/?\.])[0-9a-zA-Z$*&@!#?\.]{6,}$/;
 		if (!value) {
 			return {
@@ -63,7 +63,7 @@ export class UserValidate {
 		return { status: true, message: '' };
 	}
 
-	public static isBirthday(value: string): Boolean | ErrorMessage {
+	public static isBirthday(value: string): ErrorMessage {
 		const birthday = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i;
 		if (!value) {
 			return {
@@ -80,7 +80,7 @@ export class UserValidate {
 		return { status: true, message: '' };
 	}
 
-	public static isHeight(value: string): Boolean | ErrorMessage {
+	public static isHeight(value: string): ErrorMessage {
 		const height = /^\d+(\.\d{1,3})?$/;
 		if (!value) {
 			return {
@@ -88,10 +88,28 @@ export class UserValidate {
 				message: this.EMPTY_FIELD.replace("FIELD", "height")
 			}
 		}
-		if (!height.test(value)){
+		if (!height.test(value)) {
 			return {
 				status: false,
 				message: "Height is invalid"
+			}
+		}
+		return { status: true, message: '' };
+	}
+
+	public static isUserId(value: string): ErrorMessage {
+		const idUser = /^[1-9]\d*(\.\d+)?$/;
+				
+		if (!value) {
+			return {
+				status: false,
+				message: this.EMPTY_FIELD.replace("FIELD", "id")
+			}
+		}
+		if (!idUser.test(value)) {
+			return {
+				status: false,
+				message: "ID user is invalid"
 			}
 		}
 		return { status: true, message: '' };
