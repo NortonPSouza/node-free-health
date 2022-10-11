@@ -69,4 +69,31 @@ export class UserService {
 				.catch(({ status_code, result }) => reject({ status_code, result }))
 		});
 	}
+
+	public static validateUpdateUser(req: Request): Promise<ResponseOperation> {
+		return new Promise((resolve, reject) => {
+			const { name, email, password } = req.body;
+			const isUserId = UserValidate.isUserId(String(req.params.id));
+			const fields = {
+				isName: UserValidate.isName(name),
+				isEmail: UserValidate.isEmail(email),
+				isPassword: UserValidate.isPassword(password)
+			};
+
+			if (!isUserId.status) {
+				return reject({ status_code: 400, result: isUserId.message });
+			}
+
+			for (const key in fields) {
+				if (!fields[key].status) {
+					return reject({ status_code: 400, result: fields[key].message });
+				}
+			}
+
+			UserStorage.userUpdate(Number(req.params.id))
+				.then(({ status_code, result }) => resolve({ status_code, result }))
+				.catch(({ status_code, result }) => reject({ status_code, result }))
+
+		});
+	}
 }

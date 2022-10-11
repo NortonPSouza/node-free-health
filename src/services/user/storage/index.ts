@@ -1,5 +1,3 @@
-import { resolve } from "path";
-
 type ResponseOperation = {
 	status_code: number
 	result: string
@@ -33,6 +31,13 @@ export class UserStorage {
 		return new Promise((resolve, reject) => {
 			resolve({ status_code: 200, result: `user deleted with id = ${id}`});
 			reject({ status_code: 404, result: 'not found' });
+		});
+	}
+
+	public static userUpdate(id: number): Promise<ResponseOperation> {
+		return new Promise((resolve, reject) => {
+			resolve({ status_code: 200, result: `user updated with id = ${id}` });
+			reject({ status_code: 400, result: 'any thing that now I not know' });
 		});
 	}
 }

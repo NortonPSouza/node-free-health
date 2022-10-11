@@ -22,8 +22,14 @@ export class UserController {
 			.catch(({ status_code, result }) => res.status(status_code).send({ error: result }))
 	}
 
-	public static deleteUser(req: Request, res: Response): void {		
+	public static delete(req: Request, res: Response): void {		
 		UserService.validateDeleteUser(req)
+			.then(({ status_code, result }) => res.status(status_code).send({ result }))
+			.catch(({ status_code, result }) => res.status(status_code).send({ error: result }))
+	}
+
+	public static update(req: Request, res: Response): void {
+		UserService.validateUpdateUser(req)
 			.then(({ status_code, result }) => res.status(status_code).send({ result }))
 			.catch(({ status_code, result }) => res.status(status_code).send({ error: result }))
 	}
