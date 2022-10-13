@@ -1,9 +1,4 @@
-type ResponseOperation = {
-	status_code: number
-	result: string
-};
-
-
+import { ResponseOperation } from "../../../types/typeStorage";
 export class UserStorage {
 
 	public static userRegister(): Promise<ResponseOperation> {
