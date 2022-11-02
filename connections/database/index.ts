@@ -5,7 +5,7 @@ import { config } from './config';
 
 export default class Database {
 
-    private connection: DataSource
+    public connection: DataSource
 
     constructor() {
         this.connection = new DataSource(config);

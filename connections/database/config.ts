@@ -9,7 +9,7 @@ export const config: DataSourceOptions = {
 	database: "free-health",
 	synchronize: true,
 	logging: false,
-	entities: ['../../src/entity/*.ts'],
-	migrations: ['../../src/migrations/*.ts'],
+	entities: ['src/entity/**/*.ts'],
+	migrations: ['src/migrations/**/*.ts'],
 	// subscribers: [],
 };

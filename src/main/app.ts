@@ -1,9 +1,13 @@
 import morgan from "morgan";
-import express, {Express, Request, Response} from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 //
 import { Routes }  from '../routes';
 import Database from '../../connections/database';
+import { DataSource } from "typeorm";
 
+export interface NewRequest extends Request {
+    dataSource: DataSource
+}
 export class Application {
 
 	private app: Express;
@@ -13,16 +17,22 @@ export class Application {
 
     constructor() {
         this.app = express();
-        this.setupConfig();
         this.setupDatabase();
+        this.setupConfig();
 		this.setupRoutes();
 		this.server();
+    }
+
+    private useDatabase(req: NewRequest, res: Response, next: NextFunction){
+        req.dataSource = this.database.connection;
+        next();
     }
 
     private setupConfig(): void {
 		this.app.use(express.json());
 		this.app.use(express.urlencoded());
         this.app.use(morgan('dev'));
+        this.app.use(this.useDatabase.bind(this));
     }
 
     private setupDatabase(): void {

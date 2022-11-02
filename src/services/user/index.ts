@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { NewRequest } from '../../main/app';
 import { UserValidate } from "../../validate/uservalidate";
 import { UserStorage } from "./storage";
 
@@ -9,7 +10,7 @@ type ResponseOperation = {
 
 export class UserService {
 
-	public static validateRegister(req: Request): Promise<ResponseOperation> {
+	public static validateRegister(req: NewRequest): Promise<ResponseOperation> {
 		return new Promise((resolve, reject) => {
 			const { name, email, password, birthday, height } = req.body;
 			const fields = {
@@ -26,13 +27,13 @@ export class UserService {
 				}
 			}
 
-			UserStorage.userRegister()
+			UserStorage.userRegister(req.dataSource,{ name, email, password, birthday, height })
 				.then(({ status_code, result }) => resolve({ status_code, result }))
 				.catch(({ status_code, result }) => reject({ status_code, result }))
 		});
 	}
 
-	public static validateAllUser(req: Request): Promise<ResponseOperation> {
+	public static validateAllUser(req: NewRequest): Promise<ResponseOperation> {
 		return new Promise((resolve, reject) => {
 			UserStorage.allUser()
 				.then(({ status_code, result }) => resolve({ status_code, result }))
@@ -40,7 +41,7 @@ export class UserService {
 		});
 	}
 
-	public static validateUser(req: Request): Promise<ResponseOperation> {
+	public static validateUser(req: NewRequest): Promise<ResponseOperation> {
 		return new Promise((resolve, reject) => {
 			const idUser = req.params.id;
 			const isID = UserValidate.isUserId(String(idUser));
@@ -55,7 +56,7 @@ export class UserService {
 		});
 	}
 
-	public static validateDeleteUser(req: Request): Promise<ResponseOperation> {
+	public static validateDeleteUser(req: NewRequest): Promise<ResponseOperation> {
 		return new Promise((resolve, reject) => {
 			const idUser = req.params.id;
 			const isID = UserValidate.isUserId(String(idUser));
@@ -70,7 +71,7 @@ export class UserService {
 		});
 	}
 
-	public static validateUpdateUser(req: Request): Promise<ResponseOperation> {
+	public static validateUpdateUser(req: NewRequest): Promise<ResponseOperation> {
 		return new Promise((resolve, reject) => {
 			const { name, email, password } = req.body;
 			const isUserId = UserValidate.isUserId(String(req.params.id));
